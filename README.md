@@ -1,36 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Insurance Dashboard
 
-## Getting Started
+A clean and simple Insurance Dashboard web application built with Next.js 15, TypeScript, and Tailwind CSS. This application visualizes healthcare insurance data with interactive charts for charges by age, BMI categories, and regional analysis.
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This dashboard displays healthcare insurance data including patient demographics, medical charges, BMI categories, smoking status, and regional information. It features multiple chart types, dynamic filtering capabilities, and a clean user interface following Atomic Design principles.
+
+## Tech Stack
+
+- **Next.js 15** - Latest stable version with App Router
+- **TypeScript** - For type-safe code
+- **Tailwind CSS** - For styling and responsive design
+- **React** - Functional components with hooks
+- **SVG Charts** - Custom interactive chart components
+
+## Features
+
+### Core Features
+- **Healthcare Data Visualization** - View insurance charges and patient demographics
+- **Interactive Charts** - Switch between Bar, Line, and Pie charts
+- **Charges Threshold Filter** - Filter records by minimum insurance charges
+- **Real-time Updates** - Chart updates dynamically based on user input
+- **API Integration** - Fetches data from internal API endpoint
+- **Summary Statistics** - Display key metrics (Total Records, Avg Charges, Avg BMI, Smokers)
+
+### Chart Types
+- **Bar Chart** - Compare insurance charges across different ages (default)
+- **Line Chart** - View average charges trends by age (smooth curve)
+- **Pie Chart** - See percentage distribution by BMI category
+
+### Data Features
+- Realistic healthcare insurance data with 100+ records
+- Age groups from 18-64 years
+- BMI categories (Underweight, Normal, Overweight, Obese)
+- Regional distribution (Northeast, Northwest, Southeast, Southwest)
+- Smoking status and risk scores
+- Insurance tiers (Bronze, Silver, Gold, Platinum, Diamond)
+- Currency formatting for charges
+- Data filtering based on custom threshold input
+
+## Folder Structure
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── sales/
+│   │       └── route.ts           # API endpoint for insurance data
+│   ├── dashboard/
+│   │   └── page.tsx               # Dashboard page
+│   ├── globals.css                # Global styles
+│   ├── layout.tsx                 # Root layout
+│   └── page.tsx                   # Homepage
+├── components/
+│   ├── atoms/
+│   │   ├── Button.tsx             # Reusable button component
+│   │   ├── Input.tsx              # Reusable input component
+│   │   ├── Card.tsx               # Card container component
+│   │   └── Title.tsx              # Heading component
+│   ├── molecules/
+│   │   ├── FilterInput.tsx        # Label + Input combination
+│   │   └── ChartSwitcher.tsx      # Chart type selector buttons
+│   ├── organisms/
+│   │   ├── InsuranceBarChart.tsx     # Bar chart showing charges by age
+│   │   ├── InsuranceLineChart.tsx    # Smooth line chart for avg charges
+│   │   ├── InsurancePieChart.tsx       # Pie chart for BMI categories
+│   │   └── InsuranceChartContainer.tsx # Chart wrapper component
+│   └── templates/
+│       └── DashboardLayout.tsx    # Dashboard page layout
+├── data/
+│   ├── types/
+│   │   ├── sales.ts               # Legacy sales types
+│   │   └── insurance.ts           # Insurance data interfaces
+│   ├── sales.ts                   # Legacy sales data
+│   └── insurance.ts               # Insurance mock data
+└── lib/
+    └── utils.ts                   # Utility functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Atomic Design Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project follows the **Atomic Design Principle** for component organization:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Atoms** - Basic building blocks (Button, Input, Card, Title)
+2. **Molecules** - Simple component combinations (FilterInput, ChartSwitcher)
+3. **Organisms** - Complex UI sections (InsuranceBarChart, InsuranceLineChart, InsurancePieChart, InsuranceChartContainer)
+4. **Templates** - Page-level layouts (DashboardLayout)
+5. **Pages** - Actual Next.js pages (Dashboard, Homepage)
 
-## Learn More
+## How to Run the Project
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+2. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Start Production Server
+
+```bash
+npm start
+```
+
+## Project Routes
+
+- `/` - Homepage with link to dashboard
+- `/dashboard` - Main dashboard with charts, filters, and summary stats
+- `/api/sales` - API endpoint returning insurance data with summary (JSON)
+
+## Data Structure
+
+The insurance data follows this format:
+
+```typescript
+interface InsuranceRecord {
+  record_date: string;
+  year: number;
+  quarter: number;
+  age: number;
+  age_group: string;
+  sex: string;
+  sex_female: number;
+  bmi: number;
+  bmi_category: string;
+  children: number;
+  smoker: string;
+  smoker_flag: number;
+  is_high_risk: number;
+  risk_score: number;
+  region: string;
+  charges: number;
+  monthly_premium_est: number;
+  charges_per_child: number;
+  insurance_tier: string;
+  bmi_age_interaction: number;
+}
+```
+
+Sample data shows realistic healthcare insurance patterns:
+- Age distribution from 18 to 64 years
+- BMI categories following WHO standards
+- Regional distribution across US regions
+- Higher charges for smokers and older individuals
+- Insurance tiers correlating with risk scores
+
+## Future Improvements
+
+- [ ] **Authentication** - Add user login and role-based access
+- [ ] **Real Database** - Replace mock data with actual database (PostgreSQL/MongoDB)
+- [ ] **Export Functionality** - Add PDF/CSV export for reports
+- [ ] **Additional Filters** - Filter by region, BMI category, smoking status
+- [ ] **Regional Analysis Chart** - Add regional comparison chart
+- [ ] **Smoker vs Non-Smoker** - Add comparative visualization
+- [ ] **Age Group Analysis** - Grouped analysis by age ranges
+- [ ] **Loading States** - Add skeleton screens for better UX
+- [ ] **Error Boundaries** - Implement React error boundaries
+- [ ] **Unit Tests** - Add Jest/React Testing Library tests
+- [ ] **Storybook** - Document components with Storybook
+
+## Development Notes
+
+- Uses Next.js 15 App Router for routing
+- Implements Server Components where possible
+- Client-side data fetching with loading states
+- Type-safe throughout with TypeScript
+- Clean separation of concerns with Atomic Design
+- Minimal dependencies to keep bundle size small
+- Custom SVG charts for performance and flexibility
+- Smooth bezier curves for line chart visualization
+
+## License
+
+This project is open source and available for educational purposes.
+
+---
+
+**Happy coding!**
