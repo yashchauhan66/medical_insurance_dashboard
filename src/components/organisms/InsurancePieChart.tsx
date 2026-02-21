@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { InsuranceRecord } from '../../data/types/insurance';
 
 interface InsurancePieChartProps {
@@ -6,7 +8,9 @@ interface InsurancePieChartProps {
 }
 
 export const InsurancePieChart: React.FC<InsurancePieChartProps> = ({ data }) => {
-  // Group by BMI category
+  const [hoveredSlice, setHoveredSlice] = useState<number | null>(null);
+
+  
   const bmiCategories = data.reduce((acc, record) => {
     const category = record.bmi_category;
     if (!acc[category]) {
@@ -28,7 +32,6 @@ export const InsurancePieChart: React.FC<InsurancePieChartProps> = ({ data }) =>
     const endAngle = currentAngle + angle;
     currentAngle += angle;
 
-    // Calculate path for slice
     const startRad = (startAngle * Math.PI) / 180;
     const endRad = (endAngle * Math.PI) / 180;
     const x1 = 50 + 40 * Math.cos(startRad);
@@ -42,7 +45,8 @@ export const InsurancePieChart: React.FC<InsurancePieChartProps> = ({ data }) =>
       stats,
       percentage,
       color: colors[index % colors.length],
-      path: `M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArc} 1 ${x2} ${y2} Z`
+      path: `M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArc} 1 ${x2} ${y2} Z`,
+      avgCharges: Math.round(stats.totalCharges / stats.count)
     };
   });
 
@@ -56,11 +60,17 @@ export const InsurancePieChart: React.FC<InsurancePieChartProps> = ({ data }) =>
               d={slice.path}
               fill={slice.color}
               stroke="white"
-              strokeWidth="1"
-              className="hover:opacity-80 cursor-pointer transition-opacity"
+              strokeWidth={hoveredSlice === index ? 2 : 1}
+              className="cursor-pointer transition-all duration-200"
+              style={{
+                opacity: hoveredSlice === null || hoveredSlice === index ? 1 : 0.6,
+                transform: hoveredSlice === index ? 'scale(1.05)' : 'scale(1)',
+                transformOrigin: '50px 50px'
+              }}
+              onMouseEnter={() => setHoveredSlice(index)}
+              onMouseLeave={() => setHoveredSlice(null)}
             />
           ))}
-          {/* Center hole for donut effect */}
           <circle cx="50" cy="50" r="20" fill="white" />
           <text x="50" y="48" textAnchor="middle" className="text-xs fill-gray-600 font-medium">
             {total}
@@ -70,17 +80,40 @@ export const InsurancePieChart: React.FC<InsurancePieChartProps> = ({ data }) =>
           </text>
         </svg>
 
-        {/* Legend */}
+        
         <div className="mt-4 flex flex-wrap justify-center gap-4">
           {slices.map((slice, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div 
+              key={index} 
+              className="flex items-center gap-2 cursor-pointer hover:opacity-80 relative group"
+              onMouseEnter={() => setHoveredSlice(index)}
+              onMouseLeave={() => setHoveredSlice(null)}
+            >
               <div
-                className="w-3 h-3 rounded"
-                style={{ backgroundColor: slice.color }}
+                className="w-3 h-3 rounded transition-all"
+                style={{ 
+                  backgroundColor: slice.color,
+                  transform: hoveredSlice === index ? 'scale(1.2)' : 'scale(1)'
+                }}
               />
-              <span className="text-sm text-gray-700">
+              <span 
+                className="text-sm text-gray-700 transition-all"
+                style={{
+                  fontWeight: hoveredSlice === index ? 'bold' : 'normal'
+                }}
+              >
                 {slice.category}: {slice.stats.count} ({slice.percentage.toFixed(1)}%)
               </span>
+              
+             
+              {hoveredSlice === index && (
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-xs px-3 py-2 rounded shadow-lg whitespace-nowrap z-10">
+                  <div className="font-semibold">{slice.category}</div>
+                  <div>Count: {slice.stats.count}</div>
+                  <div>Avg Charges: ${slice.avgCharges.toLocaleString()}</div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                </div>
+              )}
             </div>
           ))}
         </div>

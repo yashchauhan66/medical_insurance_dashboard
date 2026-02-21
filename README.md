@@ -163,20 +163,6 @@ Sample data shows realistic healthcare insurance patterns:
 - Higher charges for smokers and older individuals
 - Insurance tiers correlating with risk scores
 
-## Future Improvements
-
-- [ ] **Authentication** - Add user login and role-based access
-- [ ] **Real Database** - Replace mock data with actual database (PostgreSQL/MongoDB)
-- [ ] **Export Functionality** - Add PDF/CSV export for reports
-- [ ] **Additional Filters** - Filter by region, BMI category, smoking status
-- [ ] **Regional Analysis Chart** - Add regional comparison chart
-- [ ] **Smoker vs Non-Smoker** - Add comparative visualization
-- [ ] **Age Group Analysis** - Grouped analysis by age ranges
-- [ ] **Loading States** - Add skeleton screens for better UX
-- [ ] **Error Boundaries** - Implement React error boundaries
-- [ ] **Unit Tests** - Add Jest/React Testing Library tests
-- [ ] **Storybook** - Document components with Storybook
-
 ## Development Notes
 
 - Uses Next.js 15 App Router for routing
