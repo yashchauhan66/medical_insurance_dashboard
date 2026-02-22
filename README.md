@@ -12,15 +12,17 @@ This dashboard displays healthcare insurance data including patient demographics
 - **TypeScript** - For type-safe code
 - **Tailwind CSS** - For styling and responsive design
 - **React** - Functional components with hooks
-- **SVG Charts** - Custom interactive chart components
+- **SVG Charts** - Custom interactive chart 
+
+components
 
 ## Features
 
 ### Core Features
 - **Healthcare Data Visualization** - View insurance charges and patient demographics
 - **Interactive Charts** - Switch between Bar, Line, and Pie charts
-- **Charges Threshold Filter** - Filter records by minimum insurance charges
-- **Real-time Updates** - Chart updates dynamically based on user input
+- **Charges Threshold Filter** - Filter records by minimum insurance Charges
+- **Real-time Updates** - Chart updates dynamically based on user Input
 - **API Integration** - Fetches data from internal API endpoint
 - **Summary Statistics** - Display key metrics (Total Records, Avg Charges, Avg BMI, Smokers)
 
